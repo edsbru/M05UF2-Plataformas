@@ -6,43 +6,32 @@ using UnityEngine.SceneManagement;
 public class LevelEnd : MonoBehaviour
 {
     public GameObject winMessage;
-    bool showingMessage = false;
-    float showingMessageTimeCount = 0f;
-    float showingMessageTimeDuration = 4f;
 
     private void Start()
     {
         winMessage.SetActive(false);
     }
 
-    private void Update()
-    {
-        if (showingMessage)
-        {
-            showingMessageTimeCount += Time.deltaTime;
-            if(showingMessageTimeCount >= showingMessageTimeDuration)
-            {
-                Time.timeScale = 1;
-                SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
-            }
-
-        }
-    }
-
     int playerLayer = 3;
+    
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.layer == playerLayer)
+        //cuando se toca el banderin
+        if (collision.gameObject.layer == playerLayer)
         {
-            EndLevel();
-            SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
+            //activa EndLevel
+            StartCoroutine(EndLevel());
         }
     }
-
-    void EndLevel()
+    IEnumerator EndLevel()
     {
-        showingMessage = true;
+        //para el tiempo
         Time.timeScale = 0f;
+        //haz visible el texto
         winMessage.SetActive(true);
+        //esperar 5 segundos
+        yield return new WaitForSecondsRealtime(2f);
+        //vuelve al menu principal
+        SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
     }
 }

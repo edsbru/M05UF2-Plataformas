@@ -8,6 +8,7 @@ public class MainMenuActions : MonoBehaviour
     
     public void OnClickPlay()
     {
+        Time.timeScale = 1;
         SceneManager.LoadScene("Gimnasio", LoadSceneMode.Single);
     }
 
